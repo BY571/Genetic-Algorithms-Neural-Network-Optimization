@@ -147,7 +147,7 @@ def genetic_algorithm( population_size,DNA_pool,goal, mutation_rate):
 def main(population_size,goal,mutation_rate):
   #goal = "this is sparta!"
   # define the traits you want to vary on // DNA!
-  traits = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z","?","!"," "]
+  traits = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z","?","!"," ","_"]
   genetic_algorithm(population_size = population_size,DNA_pool = traits, goal = goal, mutation_rate = mutation_rate)
 
 
