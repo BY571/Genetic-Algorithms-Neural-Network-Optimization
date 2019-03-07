@@ -4,7 +4,9 @@
 ### 1 Basic Algorithm implementation
 
 Basic implementation of a genetic algorithm for learning purposes.
+
 [Implementation](https://github.com/BY571/Genetic-Algorithms/tree/master/Basic%20Algorithm)
+
 Goal: find a given string.
 
 #### Execution:
