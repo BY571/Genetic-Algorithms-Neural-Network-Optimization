@@ -3,7 +3,7 @@
 
 ### 1 Basic Algorithm implementation
 
-Basic implementation of a genetic algorithm for learning purposes.
+Basic implementation of a genetic algorithm.
 
 [Implementation](https://github.com/BY571/Genetic-Algorithms/tree/master/Basic%20Algorithm)
 
