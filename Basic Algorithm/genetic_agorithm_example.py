@@ -1,5 +1,6 @@
 import numpy as np
 import random
+import matplotlib.pyplot as plt
 import argparse
 
 # class to creat a population of random members
@@ -34,12 +35,11 @@ class Member():
   def mutate(self,mutation_rate):
     for i in range(len(self.DNA)):
       if np.random.random() < mutation_rate:
-        #print("Mutation!")
-        #print("old name: ",self.DNA)
+
         DNA_list = list(self.DNA)
         DNA_list[i] = random.choice(self.DNA_pool)
         self.DNA = "".join(DNA_list) 
-        #print("new name: ",self.DNA)
+
 
 def show_best_member(population,norm_pop):
   idx = np.argmax(norm_pop)
@@ -107,12 +107,37 @@ def init_population(population_size,DNA_pool,DNA_length):
     population.append(mem)
   return population
 
+def plotting(histogram_plot, mean_plot,max_plot,min_plot,goal_value):
+  
+  plt.subplot(122)
+  plt.title("Single member fitness")
+  bar_ = plt.bar(np.linspace(1,len(histogram_plot),num=len(histogram_plot)),histogram_plot)
+  mean1 = np.mean(histogram_plot)
+  goal_, = plt.plot(np.resize(mean1,len(histogram_plot)),"r")
+  plt.legend([bar_,goal_],["fitness","mean"])
+  plt.subplot(121)
+  plt.title("Overall statistics")
+  plt.ylabel("Fitness")
+  plt.xlabel("Generation")
+  max_, = plt.plot(max_plot)
+  min_, = plt.plot(min_plot)
+  mean_, = plt.plot(mean_plot)
+  goal_, = plt.plot(np.resize(goal_value,len(mean_plot)))
+  plt.legend([max_,min_,mean_,goal_],["Max","Min","Mean","Optimum"])
+  plt.show()
+  plt.pause(0.001)
+  plt.clf()
+
 def genetic_algorithm( population_size,DNA_pool,goal, mutation_rate):
   DNA_length = len(goal)
   # initialize first population
   population = init_population(population_size, DNA_pool, DNA_length)
   done = False
   episode    = 0
+  mean_plot = []
+  max_plot = []
+  min_plot = []
+  goal_value = len(list(goal))
   while not done:
     
     # Checking if goal reached:
@@ -129,8 +154,10 @@ def genetic_algorithm( population_size,DNA_pool,goal, mutation_rate):
         else:
           pass
     # calc_fitness:
+    histogram_plot = []
     for member in population:
       member.calc_fitness(goal)
+      histogram_plot.append(member.fitness)
     normalized_fitness = normalize_fitness(population)
     ### PRINT BEST MEMBER of current Population
     print("Population: {}, best member: ".format(episode))
@@ -142,19 +169,26 @@ def genetic_algorithm( population_size,DNA_pool,goal, mutation_rate):
     print("Death of the parents!")
     print("-------------------\n")
     episode += 1
-
+    mean_plot.append(np.mean(histogram_plot))
+    max_plot.append(max(histogram_plot))
+    min_plot.append(min(histogram_plot))
+    #Plotting
+    #print(histogram_plot)
+    plotting(histogram_plot,mean_plot,max_plot,min_plot,goal_value)
 
 def main(population_size,goal,mutation_rate):
   #goal = "this is sparta!"
   # define the traits you want to vary on // DNA!
-  traits = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z","?","!"," ","_"]
+  traits = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z","?","!"," "]
+  plt.ion()
+  fig = plt.figure()
   genetic_algorithm(population_size = population_size,DNA_pool = traits, goal = goal, mutation_rate = mutation_rate)
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument("-p", "--Population_size",type = int,default = 50, help="Size of the Population- how many members per Population")
-    parser.add_argument("-g", "--Goal",type = str,default = "genetic algorithm", help = "Sequenz of characters as the goal DNA to reach -- has to be lower case!")
-    parser.add_argument("-m", "--Mutation_rate", type  = float, default = 0.015, help = "Percentage of how probably it is that mutation occures")
-    args = parser.parse_args()
-    main(args.Population_size,args.Goal,args.Mutation_rate)
+  parser = argparse.ArgumentParser()
+  parser.add_argument("-p", "--Population_size",type = int,default = 50, help="Size of the Population- how many members per Population")
+  parser.add_argument("-g", "--Goal",type = str,default = "genetic algorithm", help = "Sequenz of characters as the goal DNA to reach -- has to be lower case!")
+  parser.add_argument("-m", "--Mutation_rate", type  = float, default = 0.015, help = "Percentage of how probably it is that mutation occures")
+  args = parser.parse_args()
+  main(args.Population_size,args.Goal,args.Mutation_rate)
