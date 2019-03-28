@@ -19,3 +19,13 @@ with arguments:
 
 #### Explanation:
 TODO
+
+
+### 2 Multi Neural Network Weight Optimization with Genetic Algorithm
+
+[Implementation](https://github.com/BY571/Genetic-Algorithms/tree/master/Multi-Neural%20Network%20Weight%20Optimization%20with%20Genetic%20Algorithm)
+
+
+### 3 Genetic Algorithm on Neural Network Architecture and Hyperparameter Optimization 
+
+[Implementation](https://github.com/BY571/Genetic-Algorithms/tree/master/Genetic%20Algorithm%20on%20Neural%20Network%20Architecture%20and%20Hyperparameter%20Optimization)
